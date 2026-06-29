@@ -1,0 +1,2397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>边境旅人 - 序章</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', 'SimHei', sans-serif; overflow: hidden; background-color: #000; }
+        
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        #game-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #game-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(ellipse at top left, rgba(0,0,0,0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at top right, rgba(0,0,0,0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at bottom left, rgba(0,0,0,0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at bottom right, rgba(0,0,0,0.3) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #title-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+
+        /* 简约粒子背景 */
+        #title-screen::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='15' cy='15' r='0.4' fill='%23fff' opacity='0.3'/%3E%3Ccircle cx='45' cy='25' r='0.3' fill='%23fff' opacity='0.2'/%3E%3Ccircle cx='75' cy='12' r='0.35' fill='%23fff' opacity='0.25'/%3E%3Ccircle cx='25' cy='55' r='0.3' fill='%23fff' opacity='0.2'/%3E%3Ccircle cx='65' cy='45' r='0.4' fill='%23fff' opacity='0.3'/%3E%3Ccircle cx='85' cy='65' r='0.3' fill='%23fff' opacity='0.2'/%3E%3Ccircle cx='35' cy='80' r='0.35' fill='%23fff' opacity='0.25'/%3E%3Ccircle cx='55' cy='70' r='0.3' fill='%23fff' opacity='0.2'/%3E%3C/svg%3E");
+            background-size: 250px 250px;
+            opacity: 0.6;
+        }
+
+        #title-screen h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* 标题下方装饰线 */
+        #title-screen h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        }
+
+        #title-screen p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 100px;
+            margin-top: 20px;
+            letter-spacing: 10px;
+            z-index: 1;
+            font-weight: 300;
+        }
+
+        .title-button {
+            padding: 16px 70px;
+            font-size: 1.1rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            cursor: pointer;
+            margin: 12px;
+            transition: all 0.4s ease;
+            box-shadow: none;
+            z-index: 1;
+            letter-spacing: 4px;
+            min-width: 280px;
+        }
+
+        .title-button:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.7);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.05);
+        }
+
+        #name-input-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 90;
+            display: none;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #name-input-screen h2 {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 35px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        #name-input-box {
+            position: relative;
+            width: 400px;
+            max-width: 80%;
+        }
+
+        #player-name {
+            width: 100%;
+            padding: 20px 50px 20px 20px;
+            font-size: 1.4rem;
+            font-family: 'Courier New', 'Consolas', monospace;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            background: transparent;
+            color: #fff;
+            text-align: left;
+            outline: none;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        #player-name:focus {
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        #player-name::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        #name-arrow {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(-50%) rotate(-45deg);
+            transition: all 0.3s ease;
+        }
+
+        #name-input-box:focus-within #name-arrow {
+            border-color: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) rotate(-45deg) translateX(3px);
+        }
+
+        #welcome-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 95;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        #welcome-screen.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #welcome-name {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        #welcome-text {
+            font-size: 1.2rem;
+            color: #888;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        #game-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        #background-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        #character-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0; 
+            width: 100%; 
+            height: 80%;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .character-sprite {
+            position: absolute;
+            bottom: 0;
+            height: 95%;
+            max-height: 600px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            filter: drop-shadow(0 0 25px rgba(0,0,0,0.6));
+        }
+
+        /* 动态定位：立绘遮挡对话框两侧 */
+        .character-sprite.left { 
+            left: -2%;
+            bottom: 0;
+        }
+        .character-sprite.right { 
+            right: -2%; 
+            bottom: 0;
+            transform: scaleX(-1); 
+        }
+        .character-sprite.center { 
+            left: 50%; 
+            transform: translateX(-50%); 
+            bottom: 0;
+        }
+
+        /* 赛琳娜立绘缩小 */
+        .character-sprite.selena {
+            transform-origin: bottom center;
+        }
+        .character-sprite.selena.right {
+            transform: scaleX(-1) scale(0.70);
+        }
+        .character-sprite.selena.left {
+            transform: scale(0.70);
+        }
+
+        #game-title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 8px;
+            font-weight: 300;
+            z-index: 30;
+            pointer-events: none;
+        }
+
+        #save-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            z-index: 30;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        #save-button:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        #dialogue-box {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            height: calc(100% / 6);
+            padding: 15px 30px;
+            background: rgba(17, 17, 22, 0.88);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #dialogue-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 30px; width: 1px; height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        /* 对话框内容区域：留出两侧空间给立绘 */
+        #dialogue-content {
+            width: 100%;
+            max-width: 70%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        #character-name {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        #dialogue-text {
+            font-size: 1rem;
+            color: rgba(220, 220, 220, 0.9);
+            line-height: 1.7;
+            letter-spacing: 1px;
+            overflow-y: auto;
+            max-height: calc(100% - 30px);
+            text-align: center;
+        }
+
+        #dialogue-text.thought {
+            font-style: italic;
+            color: rgba(255, 204, 170, 0.7);
+        }
+
+        #dialogue-text.narrator {
+            font-style: italic;
+            color: rgba(192, 192, 192, 0.7);
+        }
+
+        #next-indicator {
+            position: absolute;
+            bottom: 12px;
+            right: 30px;
+            width: 12px;
+            height: 12px;
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            transform: rotate(-45deg);
+            animation: blink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.2; }
+        }
+
+        #choices-container {
+            position: absolute;
+            bottom: calc(100% / 6 + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 25;
+            display: none;
+        }
+
+        .choice-button {
+            padding: 15px 35px;
+            font-size: 1.05rem;
+            background: rgba(20, 20, 25, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            color: rgba(230, 230, 230, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 320px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .choice-button:hover {
+            border-color: rgba(255, 255, 255, 0.7);
+            color: #fff;
+            transform: translateX(5px);
+            background: rgba(30, 30, 35, 0.95);
+        }
+
+        #debug-panel {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            border-radius: 8px;
+            padding: 12px 18px;
+            z-index: 100;
+            font-size: 0.8rem;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            display: none;
+            max-width: 300px;
+        }
+
+        #debug-panel h3 {
+            margin: 0 0 8px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+            font-size: 0.9rem;
+        }
+
+        #debug-panel .debug-item {
+            margin: 4px 0;
+            line-height: 1.5;
+        }
+
+        #debug-panel .debug-label {
+            color: #888;
+            margin-right: 8px;
+        }
+
+        #debug-panel .debug-value {
+            color: #0f0;
+        }
+
+        #debug-panel .debug-buttons {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 255, 0, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #debug-panel .debug-btn {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            border-radius: 4px;
+            color: #0f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #debug-panel .debug-btn:hover {
+            background: rgba(0, 255, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        #debug-toggle {
+            display: none;
+        }
+
+        /* ========== 剧情进度系统 ========== */
+        #progress-button {
+            position: absolute;
+            top: 15px;
+            right: 110px;
+            padding: 8px 18px;
+            font-size: 0.8rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            z-index: 30;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        #progress-button:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 全屏进度画面 */
+        #progress-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        #progress-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 背景粒子装饰 */
+        #progress-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(80, 60, 120, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* 标题 */
+        #progress-title {
+            position: absolute;
+            top: 30px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 8px;
+            font-weight: 300;
+        }
+
+        /* 树容器 - 可滚动，无滚动条 */
+        #progress-tree-container {
+            width: 100%;
+            max-width: 800px;
+            max-height: 75vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 40px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+        }
+
+        #progress-tree-container::-webkit-scrollbar { display: none; }
+
+        /* 树结构 */
+        .story-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* 场景分组 */
+        .scene-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .scene-group-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.15);
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* 光点节点 */
+        .story-node {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            padding: 6px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* 光点本体 */
+        .node-orb {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 12px rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        /* 节点标签 */
+        .node-label {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 2px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        /* 悬停时：光点变大、发光 */
+        .story-node:hover .node-orb {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.3), 0 0 50px rgba(255, 255, 255, 0.1);
+        }
+
+        .story-node:hover .node-label {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 当前节点：持续脉动 */
+        .story-node.current .node-orb {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.25);
+            animation: orb-pulse 2s ease-in-out infinite;
+        }
+
+        .story-node.current .node-label {
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 400;
+        }
+
+        @keyframes orb-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.25); }
+            50% { box-shadow: 0 0 18px rgba(255, 255, 255, 0.9), 0 0 35px rgba(255, 255, 255, 0.4); }
+        }
+
+        /* 悬停弹出的详情卡片 */
+        .node-tooltip {
+            position: absolute;
+            left: calc(100% + 25px);
+            top: 50%;
+            transform: translateY(-50%) translateX(8px);
+            background: rgba(15, 15, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            padding: 12px 16px;
+            min-width: 180px;
+            max-width: 280px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .story-node:hover .node-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .node-tooltip .tooltip-speaker {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .node-tooltip .tooltip-text {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.5;
+            white-space: normal;
+        }
+
+        /* 连接线 */
+        .story-connector {
+            width: 1px;
+            height: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            margin: 2px 0;
+        }
+
+        /* 场景分隔（略粗的横线） */
+        .scene-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 15px 0;
+        }
+
+        /* 关闭按钮 */
+        #progress-close {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            padding: 10px 30px;
+            font-size: 0.8rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            color: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 3px;
+        }
+
+        #progress-close:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #save-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100;
+            display: none;
+        }
+
+        #save-overlay.show {
+            display: flex;
+        }
+
+        #save-panel {
+            background: rgba(15, 15, 18, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            padding: 35px 45px;
+            min-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        #save-panel h2 {
+            font-size: 1.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+            font-weight: 300;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        #save-panel h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #save-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .save-tab {
+            padding: 10px 35px;
+            font-size: 0.95rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 3px;
+        }
+
+        .save-tab.active {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        .save-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #save-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .save-slot {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            padding: 18px 22px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .save-slot:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(3px);
+        }
+
+        .save-slot.empty {
+            opacity: 0.4;
+        }
+
+        .save-slot-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-right: 18px;
+        }
+
+        .save-slot-info {
+            flex: 1;
+        }
+
+        .save-slot-name {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 5px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .save-slot-scene {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 3px;
+            letter-spacing: 1px;
+        }
+
+        .save-slot-time {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .save-slot-action {
+            padding: 10px 22px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 2px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            letter-spacing: 2px;
+        }
+
+        .save-slot-action:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        .save-slot-action.danger {
+            border-color: rgba(255, 100, 100, 0.4);
+            color: rgba(255, 100, 100, 0.7);
+            background: transparent;
+        }
+
+        .save-slot-action.danger:hover {
+            background: rgba(255, 100, 100, 0.1);
+            border-color: rgba(255, 100, 100, 0.6);
+            color: rgba(255, 100, 100, 0.9);
+        }
+
+        #save-close {
+            margin-top: 30px;
+            padding: 12px 50px;
+            font-size: 0.95rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 2px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 4px;
+        }
+
+        #save-close:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        #save-message {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 18px;
+            font-size: 0.9rem;
+            min-height: 25px;
+            letter-spacing: 1px;
+        }
+
+        #ending-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease-out;
+            overflow: hidden;
+        }
+
+        #ending-screen.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 氛围粒子画布 */
+        #ending-particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 微弱径向光晕 */
+        #ending-screen::before {
+            content: '';
+            position: absolute;
+            top: 40%; left: 50%;
+            width: 600px; height: 600px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(ellipse at center, rgba(255, 180, 80, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 斜线装饰 */
+        #ending-screen .slash {
+            position: absolute;
+            width: 180px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1.2s ease 0.8s;
+        }
+
+        #ending-screen.show .slash {
+            opacity: 1;
+        }
+
+        #ending-screen .slash-top {
+            top: 33%;
+            left: 25%;
+            transform: rotate(-25deg);
+        }
+
+        #ending-screen .slash-bottom {
+            bottom: 53%;
+            right: 25%;
+            transform: rotate(-25deg);
+        }
+
+        /* 主标题 */
+        #ending-screen h2 {
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 35px;
+            letter-spacing: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+        }
+
+        #ending-screen.show h2 {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #ending-screen h2 span.dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            margin: 0 10px;
+            vertical-align: middle;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* 叙述文字 */
+        #ending-screen p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 80px;
+            text-align: center;
+            line-height: 2.2;
+            max-width: 600px;
+            letter-spacing: 2px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 1s ease 1.2s, transform 1s ease 1.2s;
+        }
+
+        #ending-screen.show p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #ending-screen .continue-line {
+            display: block;
+            margin-top: 12px;
+            color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 4px;
+            font-size: 0.95rem;
+        }
+
+        /* 返回标题按钮 */
+        #ending-screen .ending-btn-wrap {
+            position: absolute;
+            bottom: 12%;
+            right: 10%;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.8s ease 2s, transform 0.8s ease 2s;
+        }
+
+        #ending-screen.show .ending-btn-wrap {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #ending-screen .title-button {
+            padding: 14px 70px;
+            font-size: 1.1rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: normal;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: none;
+            letter-spacing: 5px;
+        }
+
+        #ending-screen .title-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.8);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .fade-out { animation: fadeOut 0.5s ease-out forwards; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+        #effect-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 50;
+            pointer-events: none;
+            display: none;
+        }
+
+        #effect-overlay.time-stop {
+            display: block;
+            background: rgba(100, 150, 255, 0.1);
+            animation: timeStopPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes timeStopPulse {
+            0%, 100% { background: rgba(100, 150, 255, 0.1); }
+            50% { background: rgba(100, 150, 255, 0.25); }
+        }
+
+        #effect-overlay.crack {
+            display: block;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: crackAnim 0.5s ease-out infinite;
+        }
+
+        @keyframes crackAnim {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.02); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        #effect-overlay.black-screen {
+            display: block;
+            background: #000;
+            animation: blackScreenFade 0.3s ease-out forwards;
+        }
+
+        @keyframes blackScreenFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #bag-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.92);
+            padding: 20px;
+        }
+
+        #bag-panel {
+            width: min(520px, 92vw);
+            max-height: 80vh;
+            overflow: auto;
+            background: rgba(15, 15, 18, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            padding: 28px;
+            color: #fff;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        #bag-panel h3 {
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            font-weight: 300;
+        }
+
+        #bag-message {
+            min-height: 28px;
+            margin: 12px 0 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        #bag-items {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .bag-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 3px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .bag-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .bag-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .bag-item button {
+            margin-top: 10px;
+            padding: 8px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 2px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+        }
+
+        .bag-item button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+
+        .bag-empty {
+            grid-column: 1 / -1;
+            padding: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.35);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="title-screen">
+            <h1>艾尔诺大陆</h1>
+            <p>序章 · 启程</p>
+            <button class="title-button" onclick="showNameInput()">开始游戏</button>
+            <button class="title-button" onclick="openSaveMenu('load')">读取存档</button>
+            <button class="title-button" onclick="startNewGame()">重新开始</button>
+        </div>
+
+        <div id="name-input-screen">
+            <h2>ENTER YOUR NAME</h2>
+            <div id="name-input-box">
+                <input type="text" id="player-name" placeholder="" maxlength="10">
+                <div id="name-arrow"></div>
+            </div>
+        </div>
+
+        <div id="welcome-screen">
+            <div id="welcome-name"></div>
+            <div id="welcome-text">欢迎回来</div>
+        </div>
+
+        <div id="game-screen">
+            <div id="game-title">序章</div>
+            <button id="save-button" onclick="openSaveMenu()">存档</button>
+            <button id="progress-button" onclick="openProgressView()">进度</button>
+            <button id="debug-toggle" onclick="toggleDebug()">DEBUG</button>
+            
+            <div id="debug-panel">
+                <h3>调试面板</h3>
+                <div class="debug-item">
+                    <span class="debug-label">当前对话:</span>
+                    <span class="debug-value" id="debug-dialogue-id">-</span>
+                </div>
+                <div class="debug-item">
+                    <span class="debug-label">说话者:</span>
+                    <span class="debug-value" id="debug-speaker">-</span>
+                </div>
+                <div class="debug-item">
+                    <span class="debug-label">场景:</span>
+                    <span class="debug-value" id="debug-scene">-</span>
+                </div>
+                <div class="debug-item">
+                    <span class="debug-label">玩家名:</span>
+                    <span class="debug-value" id="debug-playername">-</span>
+                </div>
+                <div class="debug-item">
+                    <span class="debug-label">跳过模式:</span>
+                    <span class="debug-value" id="debug-skip">关闭</span>
+                </div>
+                <div class="debug-buttons">
+                    <button class="debug-btn" onclick="prevDialogue()">上一句</button>
+                    <button class="debug-btn" onclick="nextDialogue()">下一句</button>
+                    <button class="debug-btn" onclick="resetGame()">重置游戏</button>
+                </div>
+            </div>
+            
+            <div id="background-layer"></div>
+            <div id="effect-overlay"></div>
+            
+            <div id="character-layer">
+                <img id="left-character" class="character-sprite left" src="" style="display:none;">
+                <img id="right-character" class="character-sprite right" src="" style="display:none;">
+                <img id="center-character" class="character-sprite center" src="" style="display:none;">
+            </div>
+
+            <div id="dialogue-box">
+                <div id="character-name"></div>
+                <div id="dialogue-text"></div>
+                <div id="next-indicator"></div>
+            </div>
+
+            <div id="choices-container"></div>
+        </div>
+
+        <div id="bag-overlay">
+            <div id="bag-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px;">
+                    <h3>背包</h3>
+                    <button id="bag-close" class="title-button" style="margin:0; padding:10px 18px; font-size:0.95rem;" onclick="closeBag()">关闭</button>
+                </div>
+                <div id="bag-message">背包里还没有物品。</div>
+                <div id="bag-items"></div>
+            </div>
+        </div>
+
+        <div id="save-overlay">
+            <div id="save-panel">
+                <h2>存档管理</h2>
+                <div id="save-tabs">
+                    <button class="save-tab active" onclick="switchSaveMode('save')">存档</button>
+                    <button class="save-tab" onclick="switchSaveMode('load')">读档</button>
+                </div>
+                <div id="save-slots"></div>
+                <div id="save-message"></div>
+                <button id="save-close" onclick="closeSaveMenu()">关闭</button>
+            </div>
+        </div>
+
+        <div id="progress-overlay">
+            <div id="progress-title">剧情进度</div>
+            <div id="progress-tree-container"></div>
+            <button id="progress-close" onclick="closeProgressView()">关闭</button>
+        </div>
+
+        <div id="ending-screen">
+            <canvas id="ending-particles"></canvas>
+            <div class="slash slash-top"></div>
+            <div class="slash slash-bottom"></div>
+            <h2 id="ending-title"></h2>
+            <p id="ending-text"></p>
+            <div class="ending-btn-wrap">
+                <button class="title-button" onclick="showTitleScreen()">返回标题</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scenes/prologue/scene0_name.js"></script>
+    <script src="scenes/prologue/scene1_wake.js"></script>
+    <script src="scenes/prologue/scene2_village.js"></script>
+    <script src="scenes/prologue/scene3_secret_base.js"></script>
+    <script src="scenes/prologue/scene4_dusk.js"></script>
+    <script src="scenes/prologue/scene5_night_attack.js"></script>
+    <script src="scenes/prologue/scene6_ruins.js"></script>
+
+    <script>
+        const backgrounds = {
+            black: null,
+            morning_room: '序章/场景/清晨小屋昏睡.png',
+            morning_street: '序章/场景/清晨村庄街道.png',
+            bakery: '序章/场景/街边面包店.png',
+            square: '序章/场景/村庄中央广场.png',
+            secret_base: '序章/场景/秘密基地.png',
+            dusk_path: '序章/场景/黄昏小路.png',
+            erin_room: '序章/场景/艾琳家中客厅.png',
+            village_fire: '序章/场景/燃烧村庄火场.png',
+            crack: '序章/场景/时空裂缝吞噬艾琳.png',
+            ruins: '序章/场景/燃烧后的村庄废墟.png'
+        };
+
+        const characters = {
+            aiden_default: 'chara/艾登/艾登默认.png',
+            aiden_smile: 'chara/艾登/艾登微笑.png',
+            aiden_shy: 'chara/艾登/艾登害羞.png',
+            aiden_surprised: 'chara/艾登/艾登惊讶.png',
+            aiden_tired: 'chara/艾登/艾登疲惫.png',
+            aiden_serious: 'chara/艾登/艾登认真.png',
+            aiden_dazed: 'chara/艾登/艾登失神.png',
+            aiden_hurt: 'chara/艾登/艾登痛苦.png',
+            aiden_tense: 'chara/艾登/艾登紧张.png',
+            erin_default: 'chara/艾琳/艾琳微笑.png',
+            erin_smile: 'chara/艾琳/艾琳微笑.png',
+            erin_shy: 'chara/艾琳/艾琳害羞.png',
+            erin_worry: 'chara/艾琳/艾琳担心.png',
+            erin_happy: 'chara/艾琳/艾琳开心.png',
+            erin_playful: 'chara/艾琳/艾琳调皮.png',
+            erin_sad: 'chara/艾琳/艾琳难过.png',
+            erin_fear: 'chara/艾琳/艾琳恐惧.png',
+            erin_determined: 'chara/艾琳/艾琳坚定.png',
+            erin_collapse: 'chara/艾琳/艾琳崩溃.png',
+            erin_empty: 'chara/艾琳/空洞.png',
+            selena_default: 'chara/赛琳娜/赛琳娜默认.png',
+            selena_surprised: 'chara/赛琳娜/赛琳娜惊讶.png',
+            selena_confused: 'chara/赛琳娜/赛琳娜困惑.png',
+            selena_deep: 'chara/赛琳娜/赛琳娜深思.png',
+            selena_anxious: 'chara/赛琳娜/赛琳娜焦急.png',
+            selena_pain: 'chara/赛琳娜/赛琳娜痛苦.png',
+            selena_collapse: 'chara/赛琳娜/赛琳娜崩溃.png',
+            oldwoman_default: '序章/角色/老妇人.png'
+        };
+
+        const imageCache = {};
+        let imagesLoaded = false;
+
+        function preloadImages(callback) {
+            if (imagesLoaded) {
+                if (callback) callback();
+                return;
+            }
+
+            const allImages = [...Object.values(backgrounds), ...Object.values(characters)];
+            const uniqueImages = [...new Set(allImages.filter(src => src))];
+            
+            let loadedCount = 0;
+            const totalCount = uniqueImages.length;
+
+            if (totalCount === 0) {
+                imagesLoaded = true;
+                if (callback) callback();
+                return;
+            }
+
+            uniqueImages.forEach(src => {
+                if (imageCache[src]) {
+                    loadedCount++;
+                    checkComplete();
+                    return;
+                }
+
+                const img = new Image();
+                img.onload = () => {
+                    imageCache[src] = img;
+                    loadedCount++;
+                    checkComplete();
+                };
+                img.onerror = () => {
+                    imageCache[src] = img;
+                    loadedCount++;
+                    checkComplete();
+                };
+                img.src = src;
+            });
+
+            function checkComplete() {
+                if (loadedCount >= totalCount) {
+                    imagesLoaded = true;
+                    if (callback) callback();
+                }
+            }
+        }
+
+        const gameState = {
+            playerName: '艾登',
+            currentDialogueId: '',
+            skipMode: false,
+            isTyping: false,
+            textIndex: 0,
+            currentScene: '',
+            flags: {},
+            inventory: {},
+            bagMessage: '',
+            typeInterval: null,
+            storyPath: []  // 记录玩家经过的剧情节点
+        };
+
+        const dialogueData = [
+            ...scene0Data,
+            ...scene1Data,
+            ...scene2Data,
+            ...scene3Data,
+            ...scene4Data,
+            ...scene5Data,
+            ...scene6Data
+        ];
+
+        const itemDefinitions = {
+            bread: { name: '面包', desc: '补充一点体力。', useText: '你吃下了面包，精神稍微恢复了些。', type: 'consumable' },
+            milk: { name: '牛奶', desc: '清爽又暖和。', useText: '你喝下了牛奶，整个人都舒服了些。', type: 'consumable' },
+            potion: { name: '药水', desc: '恢复少量体力。', useText: '你喝下了药水，疲惫感缓解了。', type: 'consumable' },
+            cookie: { name: '饼干', desc: '甜甜的点心。', useText: '你吃了饼干，心情也跟着变好了。', type: 'consumable' },
+            ration: { name: '干粮', desc: '旅行时的应急食物。', useText: '你吃了干粮，暂时压下了饥饿。', type: 'consumable' },
+            food: { name: '旅行干粮', desc: '足够吃半个月的食物。', useText: '你吃了一份干粮，饥饿感消失了。', type: 'consumable' },
+            water: { name: '净水囊', desc: '装满干净水的水囊。', useText: '你喝了口水，喉咙舒服多了。', type: 'consumable' },
+            bandage: { name: '绷带', desc: '用于包扎伤口。', useText: '你用绷带处理了伤口，疼痛减轻了。', type: 'consumable' },
+            sword: { name: '精钢长剑', desc: '老板亲手锻造三个月的好剑。', type: 'equipment' },
+            armor: { name: '兽皮护甲', desc: '轻便灵活，防护性能出色。', type: 'equipment' },
+            note: { name: '残破笔记', desc: '记录着令人不安的内容……', type: 'keyItem' }
+        };
+
+        function gainItem(itemId, amount = 1) {
+            if (!itemDefinitions[itemId]) return;
+            gameState.inventory[itemId] = (gameState.inventory[itemId] || 0) + amount;
+            renderBag();
+        }
+
+        function setBagMessage(message) {
+            gameState.bagMessage = message;
+            const bagMessageEl = document.getElementById('bag-message');
+            if (bagMessageEl) bagMessageEl.textContent = message;
+        }
+
+        function renderBag() {
+            const bagItemsEl = document.getElementById('bag-items');
+            if (!bagItemsEl) return;
+
+            const items = Object.entries(gameState.inventory).filter(([, count]) => count > 0);
+            if (!items.length) {
+                bagItemsEl.innerHTML = '<div class="bag-empty">背包里空空如也。</div>';
+                return;
+            }
+
+            bagItemsEl.innerHTML = '';
+            items.forEach(([itemId, count]) => {
+                const item = itemDefinitions[itemId];
+                const itemEl = document.createElement('div');
+                itemEl.className = 'bag-item';
+                itemEl.innerHTML = `
+                    <strong>${item.name} ×${count}</strong>
+                    <div>${item.desc}</div>
+                    ${item.type === 'consumable' ? `<button onclick="useItem('${itemId}')">使用</button>` : ''}
+                `;
+                bagItemsEl.appendChild(itemEl);
+            });
+        }
+
+        function toggleBag() {
+            const overlay = document.getElementById('bag-overlay');
+            if (!overlay) return;
+            if (overlay.style.display === 'flex') {
+                closeBag();
+            } else {
+                overlay.style.display = 'flex';
+                renderBag();
+                if (gameState.bagMessage) {
+                    document.getElementById('bag-message').textContent = gameState.bagMessage;
+                } else {
+                    document.getElementById('bag-message').textContent = '背包里有你一路收集到的食物与补给。';
+                }
+            }
+        }
+
+        function closeBag() {
+            const overlay = document.getElementById('bag-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        const SAVE_SLOTS = 3;
+        let saveMode = 'save';
+
+        function openSaveMenu(mode = 'save') {
+            saveMode = mode;
+            document.getElementById('save-overlay').style.display = 'flex';
+            document.querySelectorAll('.save-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.save-tab[onclick="switchSaveMode('${mode}')"]`).classList.add('active');
+            renderSaveSlots();
+        }
+
+        function closeSaveMenu() {
+            document.getElementById('save-overlay').style.display = 'none';
+            document.getElementById('save-message').textContent = '';
+        }
+
+        function switchSaveMode(mode) {
+            saveMode = mode;
+            document.querySelectorAll('.save-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.save-tab[onclick="switchSaveMode('${mode}')"]`).classList.add('active');
+            renderSaveSlots();
+            document.getElementById('save-message').textContent = '';
+        }
+
+        function getSaveKey(slotIndex) {
+            return `figurePlotSave_${slotIndex}`;
+        }
+
+        function getAllSaves() {
+            const saves = [];
+            for (let i = 0; i < SAVE_SLOTS; i++) {
+                const key = getSaveKey(i);
+                const data = localStorage.getItem(key);
+                if (data) {
+                    try {
+                        saves.push(JSON.parse(data));
+                    } catch {
+                        saves.push(null);
+                    }
+                } else {
+                    saves.push(null);
+                }
+            }
+            return saves;
+        }
+
+        function saveGame(slotIndex) {
+            if (gameState.currentDialogueId === '') {
+                document.getElementById('save-message').textContent = '还没有开始游戏，无法存档。';
+                return;
+            }
+
+            const saveData = {
+                playerName: gameState.playerName,
+                currentDialogueId: gameState.currentDialogueId,
+                currentScene: gameState.currentScene,
+                flags: { ...gameState.flags },
+                inventory: { ...gameState.inventory },
+                timestamp: Date.now(),
+                version: '1.0'
+            };
+
+            localStorage.setItem(getSaveKey(slotIndex), JSON.stringify(saveData));
+            document.getElementById('save-message').textContent = `存档成功！(存档位 ${slotIndex + 1})`;
+            renderSaveSlots();
+        }
+
+        function loadGame(slotIndex) {
+            const key = getSaveKey(slotIndex);
+            const data = localStorage.getItem(key);
+            if (!data) {
+                document.getElementById('save-message').textContent = '该存档位为空。';
+                return;
+            }
+
+            try {
+                const saveData = JSON.parse(data);
+                
+                gameState.playerName = saveData.playerName || '艾登';
+                gameState.currentDialogueId = saveData.currentDialogueId || '';
+                gameState.currentScene = saveData.currentScene || '';
+                gameState.flags = saveData.flags || {};
+                gameState.inventory = saveData.inventory || {};
+                gameState.skipMode = false;
+                gameState.isTyping = false;
+                gameState.textIndex = 0;
+                
+                if (gameState.typeInterval) {
+                    clearInterval(gameState.typeInterval);
+                    gameState.typeInterval = null;
+                }
+
+                closeSaveMenu();
+                document.getElementById('title-screen').style.display = 'none';
+                document.getElementById('name-input-screen').style.display = 'none';
+                document.getElementById('ending-screen').style.display = 'none';
+                document.getElementById('game-screen').style.display = 'block';
+                
+                preloadImages(() => {
+                    startDialogue(gameState.currentDialogueId);
+                    renderBag();
+                });
+                
+                document.getElementById('save-message').textContent = `读档成功！`;
+            } catch (e) {
+                document.getElementById('save-message').textContent = '读档失败：存档文件损坏。';
+            }
+        }
+
+        function deleteSave(slotIndex) {
+            localStorage.removeItem(getSaveKey(slotIndex));
+            document.getElementById('save-message').textContent = `存档已删除。`;
+            renderSaveSlots();
+        }
+
+        function renderSaveSlots() {
+            const container = document.getElementById('save-slots');
+            const saves = getAllSaves();
+            container.innerHTML = '';
+
+            saves.forEach((save, index) => {
+                const slot = document.createElement('div');
+                slot.className = `save-slot${save ? '' : ' empty'}`;
+                
+                let icon = '📋';
+                let name = `存档位 ${index + 1}`;
+                let scene = '空存档';
+                let time = '';
+
+                if (save) {
+                    icon = '✨';
+                    name = save.playerName;
+                    scene = save.currentScene || '未知场景';
+                    const date = new Date(save.timestamp);
+                    time = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                }
+
+                slot.innerHTML = `
+                    <div class="save-slot-icon">${icon}</div>
+                    <div class="save-slot-info">
+                        <div class="save-slot-name">${name}</div>
+                        <div class="save-slot-scene">${scene}</div>
+                        <div class="save-slot-time">${time}</div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        ${saveMode === 'save' 
+                            ? `<button class="save-slot-action" onclick="saveGame(${index})">保存</button>` 
+                            : `<button class="save-slot-action" onclick="loadGame(${index})">读取</button>`}
+                        ${save ? `<button class="save-slot-action danger" onclick="deleteSave(${index})">删除</button>` : ''}
+                    </div>
+                `;
+
+                container.appendChild(slot);
+            });
+        }
+
+        function autoSave() {
+            if (gameState.currentDialogueId && gameState.playerName !== '艾登') {
+                const saves = getAllSaves();
+                let slotIndex = 0;
+                for (let i = 0; i < saves.length; i++) {
+                    if (!saves[i]) {
+                        slotIndex = i;
+                        break;
+                    }
+                }
+                saveGame(slotIndex);
+            }
+        }
+
+        function useItem(itemId) {
+            if (!itemDefinitions[itemId] || !gameState.inventory[itemId]) return;
+            gameState.inventory[itemId] = Math.max(0, gameState.inventory[itemId] - 1);
+            if (gameState.inventory[itemId] <= 0) delete gameState.inventory[itemId];
+            setBagMessage(itemDefinitions[itemId].useText);
+            renderBag();
+        }
+
+        function showNameInput() {
+            document.getElementById('title-screen').style.display = 'none';
+            document.getElementById('name-input-screen').style.display = 'flex';
+            document.getElementById('player-name').focus();
+        }
+
+        function startGame() {
+            const name = document.getElementById('player-name').value.trim();
+            if (!name) {
+                document.getElementById('player-name').focus();
+                return;
+            }
+            gameState.playerName = name;
+            
+            document.getElementById('name-input-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('name-input-screen').style.display = 'none';
+                
+                const welcomeScreen = document.getElementById('welcome-screen');
+                document.getElementById('welcome-name').textContent = name;
+                welcomeScreen.style.display = 'flex';
+                
+                setTimeout(() => {
+                    welcomeScreen.classList.add('show');
+                    
+                    setTimeout(() => {
+                        welcomeScreen.classList.remove('show');
+                        setTimeout(() => {
+                            welcomeScreen.style.display = 'none';
+                            document.getElementById('game-screen').style.display = 'block';
+                            
+                            preloadImages(() => {
+                                startDialogue('prologue_0_1');
+                            });
+                        }, 500);
+                    }, 2000);
+                }, 100);
+            }, 500);
+        }
+
+        function startNewGame() {
+            gameState.playerName = '艾登';
+            gameState.flags = {};
+            gameState.inventory = {};
+            gameState.bagMessage = '';
+            showNameInput();
+        }
+
+        function showTitleScreen() {
+            document.getElementById('ending-screen').classList.remove('show');
+            const gameScreen = document.getElementById('game-screen');
+            gameScreen.style.display = 'none';
+            gameScreen.style.opacity = '1';
+            gameScreen.style.transition = '';
+            document.getElementById('title-screen').style.display = 'flex';
+            document.getElementById('effect-overlay').className = '';
+            document.getElementById('effect-overlay').style.display = 'none';
+        }
+
+        function toggleSkip() {
+            gameState.skipMode = !gameState.skipMode;
+            const btn = document.getElementById('skip-button');
+            btn.textContent = gameState.skipMode ? '正常' : '跳过';
+            updateDebugPanel();
+        }
+
+        /* ========== 剧情进度查看功能 ========== */
+        function openProgressView() {
+            const overlay = document.getElementById('progress-overlay');
+            overlay.classList.add('show');
+            renderStoryTree();
+        }
+
+        function closeProgressView() {
+            const overlay = document.getElementById('progress-overlay');
+            overlay.classList.remove('show');
+        }
+
+        // 场景名映射（简短标签）
+        const sceneNameMap = {
+            'wake': '醒来',
+            'village': '散步',
+            'secret_base': '秘密基地',
+            'dusk': '黄昏',
+            'night_attack': '夜袭',
+            'ruins': '废墟',
+            'forest': '森林',
+            'town': '小镇',
+            'shop': '商店',
+            'battle': '战斗',
+            'default': '旅途'
+        };
+
+        function getSceneLabel(sceneName) {
+            if (!sceneName) return '旅途';
+            for (const [key, label] of Object.entries(sceneNameMap)) {
+                if (sceneName.includes(key)) return label;
+            }
+            // 从场景名中提取简短标签
+            const match = sceneName.match(/^[\u4e00-\u9fa5]+/);
+            return match ? match[0].substring(0, 4) : sceneName.substring(0, 4);
+        }
+
+        function renderStoryTree() {
+            const container = document.getElementById('progress-tree-container');
+            const path = gameState.storyPath;
+            
+            if (!path || path.length === 0) {
+                container.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.25); padding:60px 0; letter-spacing:3px;">尚无足迹</div>';
+                return;
+            }
+
+            // 按场景分组
+            const sceneGroups = [];
+            let currentGroup = null;
+            
+            path.forEach((node, index) => {
+                const sceneName = node.scene || '未知';
+                if (!currentGroup || currentGroup.scene !== sceneName) {
+                    currentGroup = { scene: sceneName, nodes: [] };
+                    sceneGroups.push(currentGroup);
+                }
+                currentGroup.nodes.push({ ...node, index });
+            });
+
+            let html = '<div class="story-tree">';
+            
+            sceneGroups.forEach((group, groupIndex) => {
+                const sceneLabel = getSceneLabel(group.scene);
+                
+                html += `<div class="scene-group">`;
+                html += `<div class="scene-group-label">${sceneLabel}</div>`;
+                
+                // 筛选关键节点
+                const keyNodes = group.nodes.filter((node, i) => 
+                    i === 0 || 
+                    node.hasChoices || 
+                    i === group.nodes.length - 1 ||
+                    node.type === 'thought' ||
+                    node.type === 'narrator'
+                );
+
+                keyNodes.forEach((node, nodeIndex) => {
+                    const isCurrent = node.id === gameState.currentDialogueId;
+                    
+                    // 生成简短标签
+                    let nodeLabel = '';
+                    if (node.type === 'thought') {
+                        nodeLabel = '（心声）';
+                    } else if (node.speaker && node.speaker !== '旁白') {
+                        nodeLabel = node.speaker;
+                    } else if (node.text) {
+                        nodeLabel = node.text.substring(0, 8) + (node.text.length > 8 ? '...' : '');
+                    } else {
+                        nodeLabel = '...';
+                    }
+
+                    html += `
+                        <div class="story-node ${isCurrent ? 'current' : ''}">
+                            <div class="node-orb"></div>
+                            <span class="node-label">${nodeLabel}</span>
+                            <div class="node-tooltip">
+                                <div class="tooltip-speaker">${node.speaker || '旁白'}</div>
+                                <div class="tooltip-text">${node.text || '（沉默）'}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 节点间连接线
+                    if (nodeIndex < keyNodes.length - 1) {
+                        html += '<div class="story-connector"></div>';
+                    }
+                });
+
+                html += `</div>`;
+                
+                // 场景间分隔线
+                if (groupIndex < sceneGroups.length - 1) {
+                    html += '<div class="scene-divider"></div>';
+                }
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+            
+            // 滚动到底部（当前位置），延迟以等待 CSS 过渡
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 400);
+        }
+
+        let debugMode = false;
+
+        function toggleDebug() {
+            const panel = document.getElementById('debug-panel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                debugMode = true;
+                updateDebugPanel();
+            } else {
+                panel.style.display = 'none';
+                debugMode = false;
+            }
+        }
+
+        function updateDebugPanel() {
+            const currentDialogue = dialogueData.find(d => d.id === gameState.currentDialogueId);
+            document.getElementById('debug-dialogue-id').textContent = gameState.currentDialogueId || '-';
+            document.getElementById('debug-speaker').textContent = currentDialogue ? (currentDialogue.name || '旁白') : '-';
+            document.getElementById('debug-scene').textContent = currentDialogue ? currentDialogue.scene || '-' : '-';
+            document.getElementById('debug-playername').textContent = gameState.playerName || '-';
+            document.getElementById('debug-skip').textContent = gameState.skipMode ? '开启' : '关闭';
+        }
+
+        function jumpToScene(sceneId) {
+            startDialogue(sceneId);
+            updateDebugPanel();
+        }
+
+        function prevDialogue() {
+            const currentIndex = dialogueData.findIndex(d => d.id === gameState.currentDialogueId);
+            if (currentIndex > 0) {
+                startDialogue(dialogueData[currentIndex - 1].id);
+                updateDebugPanel();
+            }
+        }
+
+        function resetGame() {
+            localStorage.removeItem('figurePlotGameState');
+            location.reload();
+        }
+
+        function applyEffect(effectName) {
+            const overlay = document.getElementById('effect-overlay');
+            if (!overlay) return;
+            
+            overlay.className = '';
+            overlay.style.display = 'none';
+            
+            switch(effectName) {
+                case 'timeStop':
+                    overlay.className = 'time-stop';
+                    break;
+                case 'crack':
+                    overlay.className = 'crack';
+                    break;
+                case 'blackScreen':
+                    overlay.className = 'black-screen';
+                    break;
+                case 'none':
+                    overlay.className = '';
+                    overlay.style.display = 'none';
+                    return;
+            }
+        }
+
+        function startDialogue(id) {
+            gameState.currentDialogueId = id;
+            const dialogue = dialogueData.find(d => d.id === id);
+            
+            if (!dialogue) {
+                if (id === 'prologue_end') {
+                    showEnding();
+                }
+                return;
+            }
+
+            // 记录剧情路径（只记录有实际内容的节点，避免重复）
+            if (dialogue.text && dialogue.text.trim() && dialogue.type !== 'effect') {
+                const lastPath = gameState.storyPath[gameState.storyPath.length - 1];
+                if (!lastPath || lastPath.id !== id) {
+                    gameState.storyPath.push({
+                        id: id,
+                        scene: dialogue.scene || '',
+                        speaker: dialogue.name || '旁白',
+                        text: dialogue.text.substring(0, 50) + (dialogue.text.length > 50 ? '...' : ''),
+                        type: dialogue.type || 'normal',
+                        hasChoices: !!dialogue.choices
+                    });
+                    // 限制路径记录数量，避免过多
+                    if (gameState.storyPath.length > 200) {
+                        gameState.storyPath = gameState.storyPath.slice(-200);
+                    }
+                }
+            }
+
+            if (dialogue.effect) {
+                applyEffect(dialogue.effect);
+            } else {
+                applyEffect('none');
+            }
+
+            if (dialogue.itemGain && dialogue.itemGain.length) {
+                dialogue.itemGain.forEach(entry => gainItem(entry.id, entry.amount || 1));
+                const itemText = dialogue.itemGain.map(entry => `${itemDefinitions[entry.id]?.name || entry.id}×${entry.amount || 1}`).join('、');
+                setBagMessage(`获得了 ${itemText}。`);
+            }
+
+            updateScene(dialogue);
+            updateDebugPanel();
+            
+            if (dialogue.choices) {
+                showChoices(dialogue);
+            } else if (dialogue.type === 'effect') {
+                setTimeout(() => {
+                    if (dialogue.next) startDialogue(dialogue.next);
+                }, dialogue.effect === 'pause' ? 1500 : 500);
+            } else {
+                showText(dialogue);
+            }
+        }
+
+        function updateScene(dialogue) {
+            gameState.currentScene = dialogue.scene;
+
+            if (dialogue.background) {
+                if (dialogue.background === 'black') {
+                    document.getElementById('background-layer').style.backgroundImage = 'none';
+                    document.getElementById('background-layer').style.backgroundColor = '#000';
+                } else if (backgrounds[dialogue.background]) {
+                    document.getElementById('background-layer').style.backgroundImage = `url('${backgrounds[dialogue.background]}')`;
+                    document.getElementById('background-layer').style.backgroundColor = '';
+                }
+            }
+
+            const speaker = dialogue.name;
+            const type = dialogue.type;
+
+            document.getElementById('left-character').style.display = 'none';
+            document.getElementById('right-character').style.display = 'none';
+
+            const leftChar = document.getElementById('left-character');
+            const rightChar = document.getElementById('right-character');
+
+            // 重置赛琳娜 class
+            rightChar.classList.remove('selena');
+            leftChar.classList.remove('selena');
+
+            if (dialogue.characters) {
+                const chars = dialogue.characters;
+                if (chars.left && characters[chars.left]) {
+                    leftChar.style.display = 'block';
+                    const leftSrc = characters[chars.left];
+                    if (!leftChar.src.endsWith(leftSrc)) {
+                        leftChar.src = leftSrc;
+                    }
+                }
+                if (chars.right && characters[chars.right]) {
+                    rightChar.style.display = 'block';
+                    const rightSrc = characters[chars.right];
+                    if (!rightChar.src.endsWith(rightSrc)) {
+                        rightChar.src = rightSrc;
+                    }
+                }
+            } else if (type === 'thought') {
+                if (speaker === '艾登') {
+                    leftChar.style.display = 'block';
+                    const leftSrc = characters['aiden_default'];
+                    if (leftSrc && !leftChar.src.endsWith(leftSrc)) {
+                        leftChar.src = leftSrc;
+                    }
+                } else if (speaker === '艾琳') {
+                    leftChar.style.display = 'block';
+                    rightChar.style.display = 'block';
+                    const leftSrc = characters['aiden_default'];
+                    if (leftSrc && !leftChar.src.endsWith(leftSrc)) {
+                        leftChar.src = leftSrc;
+                    }
+                    const rightSrc = characters['erin_default'];
+                    if (rightSrc && !rightChar.src.endsWith(rightSrc)) {
+                        rightChar.src = rightSrc;
+                    }
+                }
+            } else if (type === 'narrator') {
+            } else {
+                if (speaker === '艾登') {
+                    leftChar.style.display = 'block';
+                    const leftSrc = characters['aiden_default'];
+                    if (leftSrc && !leftChar.src.endsWith(leftSrc)) {
+                        leftChar.src = leftSrc;
+                    }
+                } else if (speaker === '艾琳') {
+                    leftChar.style.display = 'block';
+                    rightChar.style.display = 'block';
+                    const leftSrc = characters['aiden_default'];
+                    if (leftSrc && !leftChar.src.endsWith(leftSrc)) {
+                        leftChar.src = leftSrc;
+                    }
+                    const rightSrc = characters['erin_default'];
+                    if (rightSrc && !rightChar.src.endsWith(rightSrc)) {
+                        rightChar.src = rightSrc;
+                    }
+                } else if (speaker === '赛琳娜') {
+                    leftChar.style.display = 'block';
+                    rightChar.style.display = 'block';
+                    rightChar.classList.add('selena');
+                    const leftSrc = characters['aiden_default'];
+                    if (leftSrc && !leftChar.src.endsWith(leftSrc)) {
+                        leftChar.src = leftSrc;
+                    }
+                    const rightSrc = characters['selena_default'];
+                    if (rightSrc && !rightChar.src.endsWith(rightSrc)) {
+                        rightChar.src = rightSrc;
+                    }
+                }
+            }
+        }
+
+        function showText(dialogue) {
+            const nameEl = document.getElementById('character-name');
+            const textEl = document.getElementById('dialogue-text');
+            const nextIndicator = document.getElementById('next-indicator');
+
+            let displayName = dialogue.name || '';
+            if (displayName === '艾登') {
+                displayName = gameState.playerName;
+            }
+            nameEl.textContent = displayName;
+
+            textEl.textContent = '';
+            textEl.className = dialogue.type || 'normal';
+
+            gameState.isTyping = true;
+            gameState.textIndex = 0;
+            nextIndicator.style.display = 'none';
+
+            let text = dialogue.text;
+            text = text.replace(/艾登/g, gameState.playerName);
+            text = text.replace(/XX/g, gameState.playerName);
+            
+            const typingSpeed = gameState.skipMode ? 5 : 50;
+
+            if (gameState.typeInterval) clearInterval(gameState.typeInterval);
+            
+            gameState.typeInterval = setInterval(() => {
+                if (gameState.textIndex < text.length) {
+                    textEl.textContent += text.charAt(gameState.textIndex);
+                    gameState.textIndex++;
+                } else {
+                    clearInterval(gameState.typeInterval);
+                    gameState.isTyping = false;
+                    nextIndicator.style.display = 'block';
+                }
+            }, typingSpeed);
+        }
+
+        function showChoices(dialogue) {
+            const container = document.getElementById('choices-container');
+            container.innerHTML = '';
+            container.style.display = 'flex';
+
+            dialogue.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-button';
+                button.textContent = choice.text.replace(/XX/g, gameState.playerName).replace(/艾登/g, gameState.playerName);
+                button.onclick = () => {
+                    container.style.display = 'none';
+                    startDialogue(choice.next);
+                };
+                container.appendChild(button);
+            });
+        }
+
+        function nextDialogue() {
+            if (gameState.isTyping) {
+                clearInterval(gameState.typeInterval);
+                const currentDialogue = dialogueData.find(d => d.id === gameState.currentDialogueId);
+                if (currentDialogue) {
+                    let text = currentDialogue.text;
+                    text = text.replace(/艾登/g, gameState.playerName);
+                    text = text.replace(/XX/g, gameState.playerName);
+                    document.getElementById('dialogue-text').textContent = text;
+                }
+                gameState.isTyping = false;
+                document.getElementById('next-indicator').style.display = 'block';
+                return;
+            }
+
+            const currentDialogue = dialogueData.find(d => d.id === gameState.currentDialogueId);
+            if (currentDialogue && currentDialogue.next) {
+                gameState.currentDialogueId = currentDialogue.next;
+                startDialogue(currentDialogue.next);
+            }
+        }
+
+        function showEnding() {
+            const gameScreen = document.getElementById('game-screen');
+            const endingScreen = document.getElementById('ending-screen');
+            
+            // 游戏画面渐黑
+            gameScreen.style.opacity = '0';
+            gameScreen.style.transition = 'opacity 1.5s ease-in';
+            
+            setTimeout(() => {
+                gameScreen.style.display = 'none';
+                
+                // 设置结局文字
+                document.getElementById('ending-title').innerHTML = '序章<span class="dot"></span>完';
+                document.getElementById('ending-text').innerHTML = 
+                    `${gameState.playerName}的冒险，才刚刚开始。<span class="continue-line">——待续——</span>`;
+                
+                // 显示结局画面（CSS 控制分步淡入）
+                endingScreen.classList.add('show');
+                
+                // 启动粒子效果
+                startEndingParticles();
+            }, 1500);
+        }
+
+        // 结局画面粒子效果（模拟灰烬/星火缓缓飘落）
+        function startEndingParticles() {
+            const canvas = document.getElementById('ending-particles');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const particles = [];
+            const particleCount = 35;
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedY: -(Math.random() * 0.3 + 0.1),
+                    speedX: (Math.random() - 0.5) * 0.2,
+                    opacity: Math.random() * 0.4 + 0.1,
+                    flickerSpeed: Math.random() * 0.01 + 0.005,
+                    flickerPhase: Math.random() * Math.PI * 2,
+                    color: Math.random() > 0.6 
+                        ? `rgba(255, 180, 80, `   // 暖橙色（火焰余烬）
+                        : `rgba(255, 255, 255, `   // 白色（星火）
+                });
+            }
+            
+            let animFrame;
+            let time = 0;
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                time += 1;
+                
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    
+                    // 闪烁效果
+                    const flicker = Math.sin(time * p.flickerSpeed + p.flickerPhase) * 0.5 + 0.5;
+                    const currentOpacity = p.opacity * flicker;
+                    
+                    // 超出画面上方后重置到底部
+                    if (p.y < -10) {
+                        p.y = canvas.height + 10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + currentOpacity + ')';
+                    ctx.fill();
+                    
+                    // 微弱光晕
+                    if (p.size > 1.2) {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color + (currentOpacity * 0.15) + ')';
+                        ctx.fill();
+                    }
+                });
+                
+                animFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            // 当结局画面隐藏时停止动画
+            const observer = new MutationObserver(() => {
+                if (!document.getElementById('ending-screen').classList.contains('show')) {
+                    cancelAnimationFrame(animFrame);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    observer.disconnect();
+                }
+            });
+            observer.observe(document.getElementById('ending-screen'), { attributes: true, attributeFilter: ['class'] });
+        }
+
+        document.getElementById('game-screen').addEventListener('click', () => {
+            nextDialogue();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const gameScreen = document.getElementById('game-screen');
+            const nameScreen = document.getElementById('name-input-screen');
+            
+            // 检查是否有输入框获得焦点
+            const activeElement = document.activeElement;
+            const isInputFocused = activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA');
+            
+            if (gameScreen.style.display === 'block' || gameScreen.style.display === '') {
+                if (e.ctrlKey && e.shiftKey && e.altKey && e.key === 'T') {
+                    e.preventDefault();
+                    toggleDebug();
+                }
+                
+                // 输入框聚焦时不处理快捷键
+                if (!isInputFocused) {
+                    switch(e.key) {
+                        case 'ArrowRight':
+                            if (debugMode) {
+                                e.preventDefault();
+                                nextDialogue();
+                            }
+                            break;
+                        case ' ':
+                        case 'Enter':
+                            // 命名界面回车由单独处理器负责
+                            if (nameScreen.style.display !== 'flex') {
+                                e.preventDefault();
+                                nextDialogue();
+                            }
+                            break;
+                        case 'ArrowLeft':
+                            if (debugMode) {
+                                e.preventDefault();
+                                prevDialogue();
+                            }
+                            break;
+                        case 's':
+                        case 'S':
+                            e.preventDefault();
+                            toggleSkip();
+                            break;
+                        case 'x':
+                        case 'X':
+                            e.preventDefault();
+                            openSaveMenu();
+                            break;
+                    }
+                }
+            }
+            
+            if (nameScreen.style.display === 'flex') {
+                if (e.key === 'Enter') {
+                    const nameInput = document.getElementById('player-name');
+                    if (nameInput.value.trim()) {
+                        startGame();
+                    }
+                }
+            }
+        });
+
+        document.getElementById('player-name').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') startGame();
+        });
+
+        document.getElementById('bag-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'bag-overlay') closeBag();
+        });
+    </script>
+</body>
+</html>
