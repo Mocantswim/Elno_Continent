@@ -1,4 +1,4 @@
-const scene0Data = [
+var scene0Data = [
     {
         id: 'prologue_0_1',
         scene: '序章 Scene 0：名字',

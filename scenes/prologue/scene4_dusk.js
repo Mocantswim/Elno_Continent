@@ -1,4 +1,4 @@
-const scene4Data = [
+var scene4Data = [
     { id: 'prologue_4_1', scene: '序章 Scene 4：黄昏回家', background: 'dusk_path', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '黄昏。夕阳染红天空。村庄小路。艾登和艾琳并肩走着，脚步很慢，谁都没有说话。', next: 'prologue_4_2' },
     { id: 'prologue_4_2', scene: '序章 Scene 4：黄昏回家', background: 'dusk_path', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '那个。', next: 'prologue_4_3' },
     { id: 'prologue_4_3', scene: '序章 Scene 4：黄昏回家', background: 'dusk_path', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '嗯？', next: 'prologue_4_4' },

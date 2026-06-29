@@ -1,4 +1,4 @@
-const scene5Data = [
+var scene5Data = [
     { id: 'prologue_5_1', scene: '序章 Scene 5：夜袭', background: 'erin_room', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '夜晚。艾登家。窗外夜色安静。桌上摆着晚饭。', next: 'prologue_5_2' },
     { id: 'prologue_5_2', scene: '序章 Scene 5：夜袭', background: 'erin_room', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '所以我宣布——今天晚上不准你乱跑。', next: 'prologue_5_3' },
     { id: 'prologue_5_3', scene: '序章 Scene 5：夜袭', background: 'erin_room', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '为什么？', next: 'prologue_5_4' },

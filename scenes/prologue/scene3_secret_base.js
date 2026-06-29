@@ -1,4 +1,4 @@
-const scene3Data = [
+var scene3Data = [
     { id: 'prologue_3_1', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '村庄边缘。风吹过草地。远处是山坡与天空。艾琳走在前面。', next: 'prologue_3_2' },
     { id: 'prologue_3_2', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '到了！', next: 'prologue_3_3' },
     { id: 'prologue_3_3', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '这是……', next: 'prologue_3_4' },

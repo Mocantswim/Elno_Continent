@@ -1,4 +1,4 @@
-const scene6Data = [
+var scene6Data = [
     { id: 'prologue_6_1', scene: '序章 Scene 6：废墟', background: 'black', characters: {}, type: 'narrator', text: '耳边全是杂音。火焰燃烧声、房屋坍塌声、哭喊声，还有自己的喘息声。', next: 'prologue_6_2' },
     { id: 'prologue_6_2', scene: '序章 Scene 6：废墟', background: 'ruins', characters: {}, type: 'narrator', text: '画面缓缓亮起。燃烧的村庄，浓烟弥漫，夜色被火焰染红。', next: 'prologue_6_3' },
     { id: 'prologue_6_3', scene: '序章 Scene 6：废墟', background: 'ruins', characters: {}, type: 'narrator', text: '艾登跪在地上，双眼失焦，手还保持着抓握的姿势，像是想抓住什么，却什么都没有。', next: 'prologue_6_4' },
