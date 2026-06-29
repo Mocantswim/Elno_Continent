@@ -5,7 +5,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '耳边传来模糊的风声。',
+        text: '耳边传来模糊的风声',
         next: 'prologue_0_2'
     },
     {
@@ -14,7 +14,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '像是很远的地方，有谁在呼唤。',
+        text: '像是很远的地方，有谁在呼唤',
         next: 'prologue_0_3'
     },
     {
@@ -23,7 +23,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '听不清。',
+        text: '听不清',
         next: 'prologue_0_4'
     },
     {
@@ -32,7 +32,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '很轻。',
+        text: '很轻',
         next: 'prologue_0_5'
     },
     {
@@ -41,7 +41,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '像隔着水面。',
+        text: '像隔着水面',
         next: 'prologue_0_6'
     },
     {
@@ -50,7 +50,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '像隔着梦。',
+        text: '像隔着梦',
         next: 'prologue_0_8'
     },
     {
@@ -59,7 +59,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '风声慢慢清晰。',
+        text: '风声慢慢清晰',
         next: 'prologue_0_9'
     },
     {
@@ -68,7 +68,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '有谁在哭。',
+        text: '有谁在哭',
         next: 'prologue_0_10'
     },
     {
@@ -77,7 +77,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '很近。',
+        text: '很近',
         next: 'prologue_0_11'
     },
     {
@@ -86,7 +86,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '断断续续。',
+        text: '断断续续',
         next: 'prologue_0_12'
     },
     {
@@ -95,7 +95,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '像是在强忍着什么。',
+        text: '像是在强忍着什么',
         next: 'prologue_0_13'
     },
     {
@@ -104,7 +104,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '然后。',
+        text: '然后',
         next: 'prologue_0_14'
     },
     {
@@ -113,7 +113,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '一个很轻的声音落下来。',
+        text: '一个很轻的声音落下来',
         next: 'prologue_0_15'
     },
     {
@@ -131,7 +131,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         name: '???',
-        text: '……你到底还要睡多久啊。',
+        text: '……你到底还要睡多久啊',
         next: 'prologue_0_17'
     },
     {
@@ -140,7 +140,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '声音有些发抖。',
+        text: '声音有些发抖',
         next: 'prologue_0_18'
     },
     {
@@ -149,7 +149,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '像是在抱怨。',
+        text: '像是在抱怨',
         next: 'prologue_0_19'
     },
     {
@@ -158,7 +158,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '又像是在祈祷。',
+        text: '又像是在祈祷',
         next: 'prologue_0_20'
     },
     {
@@ -167,7 +167,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         name: '???',
-        text: '大家都说你会醒。',
+        text: '大家都说你会醒',
         next: 'prologue_0_21'
     },
     {
@@ -185,7 +185,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         name: '???',
-        text: '骗子。',
+        text: '骗子',
         next: 'prologue_0_23'
     },
     {
@@ -213,7 +213,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         name: '???',
-        text: '不会丢下我的。',
+        text: '不会丢下我的',
         next: 'prologue_0_26'
     },
     {
@@ -222,7 +222,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '黑暗里传来衣料摩擦声。',
+        text: '黑暗里传来衣料摩擦声',
         next: 'prologue_0_27'
     },
     {
@@ -231,7 +231,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '像是谁靠得更近了一些。',
+        text: '像是谁靠得更近了一些',
         next: 'prologue_0_28'
     },
     {
@@ -240,7 +240,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '一滴温热落在脸上。',
+        text: '一滴温热落在脸上',
         next: 'prologue_0_29'
     },
     {
@@ -249,7 +249,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '是眼泪。',
+        text: '是眼泪',
         next: 'prologue_0_30'
     },
     {
@@ -258,7 +258,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '然后。',
+        text: '然后',
         next: 'prologue_0_31'
     },
     {
@@ -267,7 +267,7 @@ const scene0Data = [
         background: 'black',
         characters: {},
         type: 'narrator',
-        text: '意识像是终于浮上水面。',
+        text: '意识像是终于浮上水面',
         next: 'prologue_1_1'
     }
 ];
