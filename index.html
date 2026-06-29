@@ -1249,6 +1249,9 @@
                 <input type="text" id="player-name" placeholder="" maxlength="10">
                 <div id="name-arrow"></div>
             </div>
+            <div id="start-btn-wrap" style="margin-top: 45px; opacity:0; pointer-events:none; transition: opacity 0.6s ease;">
+                <button class="title-button" onclick="startGame()">启程</button>
+            </div>
         </div>
 
         <div id="welcome-screen">
@@ -2392,6 +2395,43 @@
         document.getElementById('bag-overlay').addEventListener('click', (e) => {
             if (e.target.id === 'bag-overlay') closeBag();
         });
+
+        // 名字输入监听，延时显示启程按钮
+        let nameInputTimer = null;
+        const nameInput = document.getElementById('player-name');
+        const startBtnWrap = document.getElementById('start-btn-wrap');
+
+        // 输入变化触发延时检测
+        nameInput.addEventListener('input', function() {
+        // 清空之前计时器，重新倒计时
+        clearTimeout(nameInputTimer);
+        const name = this.value.trim();
+        
+        // 名字为空：立刻隐藏按钮
+        if (!name) {
+            startBtnWrap.style.opacity = '0';
+            startBtnWrap.style.pointerEvents = 'none';
+            return;
+        }
+        
+        // 有名字：等待0.8秒后淡入启程按钮
+        nameInputTimer = setTimeout(() => {
+            startBtnWrap.style.opacity = '1';
+            startBtnWrap.style.pointerEvents = 'auto';
+        }, 800);
+    });
+
+    // 回车直接触发启程（按钮未显示时回车无效）
+    nameInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const name = this.value.trim();
+            const isBtnShow = parseFloat(startBtnWrap.style.opacity) === 1;
+            // 必须有名字+按钮已显示，回车才能启动游戏
+            if (name && isBtnShow) {
+                startGame();
+            }
+        }
+    });
     </script>
 </body>
 </html>
