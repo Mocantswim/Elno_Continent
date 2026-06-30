@@ -3,7 +3,7 @@ var scene3Data = [
     { id: 'prologue_3_2', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '到了！', next: 'prologue_3_3' },
     { id: 'prologue_3_3', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '这是……', next: 'prologue_3_4' },
     { id: 'prologue_3_4', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '忘啦？小时候我们经常来的地方。', next: 'prologue_3_5' },
-    { id: 'prologue_3_5', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '艾登环顾四周。熟悉的草地，熟悉的大树，树下还有一张歪歪扭扭的木椅。', next: 'prologue_3_6' },
+    { id: 'prologue_3_5', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '你环顾四周。熟悉的草地，熟悉的大树，树下还有一张歪歪扭扭的木椅。', next: 'prologue_3_6' },
     { id: 'prologue_3_6', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '原来你说的是这里。', next: 'prologue_3_7' },
     { id: 'prologue_3_7', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '哼哼。是不是很怀念？', next: 'prologue_3_8' },
     { id: 'prologue_3_8', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '还行。', next: 'prologue_3_9' },

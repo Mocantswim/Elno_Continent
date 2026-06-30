@@ -441,7 +441,7 @@ var scene1Data = [
         background: 'morning_room',
         characters: { left: 'aiden_default', center: 'oldwoman_default', right: 'erin_shy' },
         type: 'narrator',
-        text: '看见艾登。',
+        text: '看见你。',
         next: 'prologue_1_51'
     },
     {
@@ -649,7 +649,7 @@ var scene1Data = [
         background: 'morning_room',
         characters: { left: 'aiden_default', center: 'oldwoman_default', right: 'erin_worry' },
         type: 'narrator',
-        text: '自己忘了什么很重要的事。',
+        text: '你忘了什么很重要的事。',
         next: 'prologue_1_74'
     },
     {

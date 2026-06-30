@@ -545,7 +545,7 @@ var scene2Data = [
         background: 'morning_street',
         characters: { left: 'aiden_default', right: 'erin_shy' },
         type: 'narrator',
-        text: '艾登愣了一下。',
+        text: '你愣了一下。',
         next: 'prologue_2_62'
     },
     {
@@ -1255,7 +1255,7 @@ var scene2Data = [
         background: 'morning_street',
         characters: { right: 'erin_happy' },
         type: 'narrator',
-        text: '艾登跟上。',
+        text: '你跟上。',
         next: 'prologue_3_1'
     }
 ];
