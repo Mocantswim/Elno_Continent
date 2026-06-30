@@ -35,7 +35,7 @@ var scene6Data = [
     { id: 'prologue_6_34', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, name: '艾登', text: '我要去找她。', next: 'prologue_6_35' },
     { id: 'prologue_6_35', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, name: '塞琳娜', text: '你知道自己在说什么吗？那不是你能接触的领域。', next: 'prologue_6_36' },
     { id: 'prologue_6_36', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, name: '艾登', text: '那又怎样？我要去找她。不管她在哪，我都要把她带回来。', next: 'prologue_6_37' },
-    { id: 'prologue_6_37', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, type: 'narrator', text: '塞琳娜看着艾登，长久沉默。', next: 'prologue_6_38' },
+    { id: 'prologue_6_37', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, type: 'narrator', text: '塞琳娜看着你，长久沉默。', next: 'prologue_6_38' },
     { id: 'prologue_6_38', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, name: '塞琳娜', text: '你会死。', next: 'prologue_6_39' },
     { id: 'prologue_6_39', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, name: '艾登', text: '那也无所谓。', next: 'prologue_6_40' },
     { id: 'prologue_6_40', scene: '序章 Scene 6：废墟', background: 'ruins', characters: { left: 'aiden_default', right: 'selena_default' }, type: 'narrator', text: '风吹过，火焰摇曳。塞琳娜看着眼前的少年，眼中第一次出现细微波动。', next: 'prologue_6_41' },

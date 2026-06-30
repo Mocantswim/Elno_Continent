@@ -23,7 +23,7 @@ var scene2Data = [
         background: 'morning_street',
         characters: { right: 'erin_happy' },
         type: 'narrator',
-        text: '艾琳走在前面，艾登跟在后面。',
+        text: '艾琳走在前面，你跟在后面。',
         next: 'prologue_2_4'
     },
     {
@@ -1237,7 +1237,7 @@ var scene2Data = [
         background: 'morning_street',
         characters: { right: 'erin_happy' },
         type: 'narrator',
-        text: '艾登轻轻笑了。',
+        text: '你轻轻笑了。',
         next: 'prologue_2_137'
     },
     {

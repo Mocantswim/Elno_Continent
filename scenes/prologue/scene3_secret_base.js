@@ -31,7 +31,7 @@ var scene3Data = [
     { id: 'prologue_3_30', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '想不起来就别想了。', next: 'prologue_3_31' },
     { id: 'prologue_3_31', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾登', text: '可我总觉得——', next: 'prologue_3_32' },
     { id: 'prologue_3_32', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '别想了。', next: 'prologue_3_33' },
-    { id: 'prologue_3_33', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, type: 'narrator', text: '语气忽然重了一点。艾登愣了一下，因为艾琳很少用这种语气说话。', next: 'prologue_3_34' },
+    { id: 'prologue_3_33', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, type: 'narrator', text: '语气忽然重了一点。你愣了一下，因为艾琳很少用这种语气说话。', next: 'prologue_3_34' },
     { id: 'prologue_3_34', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '你知道吗，他们找到你的时候，你身上全是伤，怎么叫都没有反应。', next: 'prologue_3_35' },
     { id: 'prologue_3_35', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '婆婆说你会醒，大家都说你不会有事。可我……我一点都不相信。', next: 'prologue_3_36' },
     { id: 'prologue_3_36', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '因为你躺在那里，一点声音都没有。安静得……很可怕。', next: 'prologue_3_37' },
@@ -40,7 +40,7 @@ var scene3Data = [
     { id: 'prologue_3_39', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '对你来说可能只是昏迷几天，可对我来说不是。一点都不是。', next: 'prologue_3_40' },
     { id: 'prologue_3_40', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾登', text: '……抱歉。', next: 'prologue_3_41' },
     { id: 'prologue_3_41', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '我不是要你道歉。我只是……很害怕。我真的以为你不会醒了。', next: 'prologue_3_42' },
-    { id: 'prologue_3_42', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, type: 'narrator', text: '眼泪掉下来，啪嗒落在手背上。艾登沉默着，然后轻轻伸出手替她擦掉眼泪。', next: 'prologue_3_43' },
+    { id: 'prologue_3_42', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, type: 'narrator', text: '眼泪掉下来，啪嗒落在手背上。你沉默着，然后轻轻伸出手替她擦掉眼泪。', next: 'prologue_3_43' },
     { id: 'prologue_3_43', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾登', text: '对不起。让你害怕了。', next: 'prologue_3_44' },
     { id: 'prologue_3_44', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_worry' }, name: '艾琳', text: '你这个人……真的很狡猾。因为你每次都这样，让我生气不起来。', next: 'prologue_3_45' },
     { id: 'prologue_3_45', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_smile' }, type: 'effect', effect: 'pause', text: '', next: 'prologue_3_46' },
@@ -58,6 +58,6 @@ var scene3Data = [
     { id: 'prologue_3_56', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '哼哼。怕了？', next: 'prologue_3_57' },
     { id: 'prologue_3_57', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾登', text: '有一点。', next: 'prologue_3_58' },
     { id: 'prologue_3_58', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, name: '艾琳', text: '晚了。', next: 'prologue_3_59' },
-    { id: 'prologue_3_59', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '艾琳终于笑了出来。艾登看着她，也轻轻笑了。', next: 'prologue_3_60' },
+    { id: 'prologue_3_59', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'narrator', text: '艾琳终于笑了出来。你看着她，也轻轻笑了。', next: 'prologue_3_60' },
     { id: 'prologue_3_60', scene: '序章 Scene 3：秘密基地', background: 'secret_base', characters: { left: 'aiden_default', right: 'erin_happy' }, type: 'thought', name: '艾登', text: '如果时间能停在这一刻，好像也不错。', next: 'prologue_4_1' }
 ];
