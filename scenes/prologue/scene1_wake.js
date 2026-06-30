@@ -324,7 +324,7 @@ var scene1Data = [
         background: 'morning_room',
         characters: { left: 'aiden_default', center: 'oldwoman_default', right: 'erin_worry' },
         type: 'narrator',
-        text: '艾登看着她。',
+        text: '你看着她。',
         next: 'prologue_1_38'
     },
     {
